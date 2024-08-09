@@ -21,9 +21,13 @@
 
             </div>
             <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
                 <div class="card overflow-hidden latest-tasks">
                     <div>
                         <div class="card-header p-0  justify-content-between px-4 pt-4 text-center ">
+                                            
+<code>NOTE DEV: FORM KE SUKET_MHS OK, TAPI UNTUK SEMESTER DAN JENJANG PENDIDIKAN BELUM DI KETAHUI</code>
+
                             <h4 class="card-title mg-b-10 text-center">Surat Keterangan</h4>
                         </div>
                         <ul class="nav nav-tabs nav-tabs-header mb-0" role="tablist">
@@ -83,6 +87,7 @@
         </div>
         <!-- row3 -->
         <div class="row">
+
             <div class="col-xxl-12 col-xl-12 col-lg-12 mx-auto">
                 <div class="card border border-success mb-4">
                     <div class="card-body text-success text-center">
@@ -133,7 +138,6 @@
                                     <input type="text" class="form-control " id="nim_lama" value="<?php echo $mhs->kd_lokal; ?>" readonly>
                                 </div>
                             </div>
-                            <a href="<?php echo base_url('Pdf/generate_pdfsuketmhs');?>" class="btn btn-outline-success rounded-pill btn-wave">lihat pdf</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-nowrap table-bordered">
@@ -151,22 +155,24 @@
                                     <?php $no = 1; ?>
                                     <?php foreach ($suket_mhs as $s) : ?>
                                         <tr>
+                                            <form action="<?php echo base_url('Pdf/generate_pdfsuketmhs'); ?>" method="get">
                                             <th><?php echo $no++; ?></th>
                                             <td><?php echo $s->log_date; ?></td>
                                             <td><?php echo $s->log_time; ?></td>
                                             <td><?php echo $s->Lokasi; ?></td>
-                                            <td>Cetak Langsung</td>
+                                            <td>
+                                                
+                                                    <input type="hidden" name="log_date" value="<?php echo  $s->log_date; ?>">
+                                                    <input type="hidden" name="log_time" value="<?php echo $s->log_time; ?>">
+                                                    <button type="submit" class="btn btn-outline-success rounded-pill btn-wave" style="width: auto;">Cetak Surat</button>
+                                                </form>
+                                            </td>
                                             <td><?php echo $s->Ket_baak; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer  text-center d-block">
-                        <a href="javascript:void(0);" class="">Klik disini untuk : Pengajuan Surat Keterangan</a>
-                        <br>
-                       
                     </div>
                 </div>
             </div>
