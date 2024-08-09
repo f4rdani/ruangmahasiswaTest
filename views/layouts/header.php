@@ -541,7 +541,7 @@
          <header class="app-header">
 
             <!-- Start::main-header-container -->
-            <div class="main-header-container container-fluid" style="background: rgba(0,194,146,255);">
+            <div class="main-header-container container-fluid" >
 
                 <!-- Start::header-content-left -->
                 <div class="header-content-left">
