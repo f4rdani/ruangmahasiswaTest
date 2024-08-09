@@ -29,7 +29,7 @@ function is_active($url) {
         <aside class="app-sidebar sticky" id="sidebar">
 
             <!-- Start::main-sidebar-header -->
-            <div class="main-sidebar-header" style="background: rgba(0,184,139,255);" >
+            <div class="main-sidebar-header" >
                 <a href="<?=  base_url("auth")?>" class="header-logo">
                     <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
                     <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
