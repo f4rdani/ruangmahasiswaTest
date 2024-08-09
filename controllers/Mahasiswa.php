@@ -56,6 +56,7 @@ class Mahasiswa extends CI_Controller {
         $nim = $this->session->userdata('nim');
         $data['name'] = $this->session->userdata('name');
         $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        $data['riset'] = $this->db->get_where('surat_riset', ['nim' => $nim])->result();
         // Periksa peran pengguna
         if ($this->session->userdata('role') == "mahasiswa") {
             // Load views jika peran adalah mahasiswa
@@ -111,24 +112,24 @@ class Mahasiswa extends CI_Controller {
             return;
         }
     }
-	public function  buat_surat_riset_tugas()
+    public function delete_suratriset($no)
     {
-        $nim = $this->session->userdata('nim');
-        $data['name'] = $this->session->userdata('name');
+        $this->db->where('no', $no);
+        $riset = $this->db->get('surat_riset')->row();
 
-        // Periksa peran pengguna
-        if ($this->session->userdata('role') == "mahasiswa") {
-            // Load views jika peran adalah mahasiswa
-            $this->load->view('layouts/header');
-            $this->load->view('layouts/sidebar');
-            $this->load->view('mahasiswa/buat_surat_riset_tugas', $data);
-            $this->load->view('layouts/footer');
+        if (!$riset) {
+            echo 'Data tidak ditemukan';
+            return;
+        }
+        $this->db->where('no', $no);
+        if ($this->db->delete('surat_riset')) {
+            echo 'Data berhasil dihapus';
+            redirect('Mahasiswa/buat_surat_riset');
         } else {
-            // Redirect ke halaman logout jika bukan mahasiswa
-            redirect('Auth/Logoutmhs');
+            echo 'Gagal menghapus data';
         }
     }
-	public function  surat_keterangan()
+	 public function  surat_keterangan()
     {
         $nim = $this->session->userdata('nim');
         $data['name'] = $this->session->userdata('name');
@@ -136,9 +137,9 @@ class Mahasiswa extends CI_Controller {
         $data['suket_mhs'] = $this->db->get_where('suket_mhs', ['nim' => $nim])->result();
 
         // Lakukan join untuk mendapatkan nm_jrs
-        $this->db->select('kaprodi_kampus.nm_jrs'); // Ganti dengan nama kolom yang sesuai
+        $this->db->select('jrskampus.nm_jrs'); 
         $this->db->from('mhs');
-        $this->db->join('kaprodi_kampus', 'mhs.kd_jrs = kaprodi_kampus.kd_jrs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
         $this->db->where('mhs.nim', $nim);
         $data['studi'] = $this->db->get()->row();
         // Periksa peran pengguna
@@ -173,13 +174,12 @@ class Mahasiswa extends CI_Controller {
         );
 
         if ($this->db->insert('suket_mhs', $data)) {
-            redirect('Mahasiswa');
+            redirect('Mahasiswa/surat_keterangan');
         } else {
             echo 'Database insert failed';
             return;
         }
-    }
-	public function pengajuan_mutasi_kampus()
+    }public function pengajuan_mutasi_kampus()
     {
         if ($this->session->userdata('role') == "mahasiswa") {
             $data['data'] = $this->db->get('klndrak')->result();
