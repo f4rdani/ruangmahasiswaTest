@@ -22,6 +22,9 @@
             </div>
             <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
                 <div class="card overflow-hidden latest-tasks">
+                    
+<code>NOTE DEV: FORM dan DELETE KE surat_riset OK, TAPI UNTUK LAMANYA WAKTU RISET, PILIH VERSI SURAT BELUM DI KETAHUI</code>
+
                     <div>
                         <div class="card-header p-0  justify-content-between px-4 pt-4 text-center ">
                             <h4 class="card-title mg-b-10 text-center">Surat Pengantar Riset terdapat dalam 2 versi</h4>
@@ -93,12 +96,13 @@
                                 <div class="card-body">
                                     <label for="text-area" class="form-label"></label>
                                     <textarea class="form-control" id="text-area" rows="7">
-         Kepada Yth : <br><br />
-         Humas / Public Relation / SDM <br><br />
-		 Hotel Central <br><br />
-		 Jl. Setia Budi No. 12-15 <br><br />
-		 Jakarta Timur 125874 ==============================<br />
-		 Gunakan --> <br> <-- untuk berpindah baris (terlihat rapih)  
+    Kepada Yth : <br>
+    Humas / Public Relation / SDM <br>
+    Hotel Central <br>
+    Jl. Setia Budi No. 12-15 <br>
+    Jakarta Timur 125874 <br>
+    ==============================
+   
                                     </textarea>
                                 </div>
                             </div>
@@ -106,9 +110,10 @@
                         <div class="tasks col-xl-6 col-md-6 col-sm-12">
                             <div class="card custom-card">
                                 <div class="card-header">
-                                    <div class="card-title">Alamat Lengkap</div>
+                                    <div class="card-title">Alamat Lengkap Instansi Yang Dituju.</div><br>
+                                    <code> Gunakan &lt;br&gt; untuk berpindah baris (terlihat rapih)</code>
                                 </div>
-<form method="post" action="<?= base_url('Mahasiswa/surat_riset_store'); ?>">
+                                <form method="post" action="<?= base_url('Mahasiswa/surat_riset_store'); ?>">
                                     <div class="card-body">
                                         <label for="text-area" class="form-label"></label>
                                         <textarea class="form-control" name="ket" id="text-area" rows="7"></textarea>
@@ -116,6 +121,28 @@
                             </div>
                             <input type="hidden" class="form-control " id="nim" name="nim" value="<?php echo $mhs->nim; ?>" readonly>
                             <input type="hidden" class="form-control " id="nama" name="nama" value="<?php echo $mhs->nm_mhs; ?>" readonly>
+                        </div>
+                        <div class="tasks col-xl-6 col-md-6 col-sm-12">
+                            <div class="card custom-card">
+                                <div class="card-body">
+                                    <label for="text-area" class="form-label">Pilih Rentan Waktu Riset Atau PKL</label>
+                                    <select class="form-select" id="" name="lamapkl">
+                                        <option value="1-3 (satu sampai tiga) bulan">1-3 (satu sampai tiga) bulan</option>
+                                        <option value="1-6 (satu sampai enam) bulan">1-6 (satu sampai enam) bulan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tasks col-xl-6 col-md-6 col-sm-12">
+                            <div class="card custom-card">
+                                <div class="card-body">
+                                    <label for="text-area" class="form-label">Pilih versi surat</label>
+                                    <select class="form-select" id="" name="jns_surat">
+                                        <option value="Online">Online</option>
+                                        <option value="Offline">Offline</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -133,14 +160,57 @@
                         </div>
                     </div>
                     <div class="row mb-3" style="display: flex; justify-content: center;">
-                        <button  type="submit" class="btn btn-primary label-btn" style="width: auto;">
+                        <button type="submit" class="btn btn-primary label-btn" style="width: auto;">
                             <i class="ri-chat-smile-line label-btn-icon me-2"></i>
                             Kirim
                         </button>
                     </div>
-</form>
+                    </form>
                 </div>
             </div>
         </div>
+        <?php if (!empty($riset)) : ?>
+        <div class="row">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 mx-auto">
+                <div class="card custom-card ">
+                    <div class="card-header text-center d-block   ">
+                        <div class="card-title">Pembuatan Surat Pengantar Riset Telah Di Ajukan</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table text-nowrap table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tanggal</th>
+                                        <th scope="col">Jam</th>
+                                        <th scope="col">versi</th>
+                                        <th scope="col">status</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php foreach ($riset as $s) : ?>
+                                        <tr>
+                                        <form action="<?php echo base_url('Pdf/cetaksuketriset'); ?>" method="post">
+                                            <td><?php echo $s->log_date; ?></td>
+                                            <td><?php echo $s->log_time; ?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <input type="hidden" name="no" value="<?php echo  $s->no; ?>">
+                                            <td> <button type="submit" class="btn btn-info" style="width: auto;">Cetak Surat</button>
+                                        </form>
+                                            <a href="<?php echo site_url('Mahasiswa/delete_suratriset/' . $s->no ); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');" class="btn btn-danger">Hapus</a>
+                                            </td>
+                                        </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
