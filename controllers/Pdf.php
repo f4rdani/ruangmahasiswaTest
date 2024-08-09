@@ -15,36 +15,133 @@ class Pdf extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('upload');
     }
-
-    public function generate_pdfsuketmhs()
+    public function test_pdfsuketmhs()
     {
         $nim = $this->session->userdata('nim');
         $data['name'] = $this->session->userdata('name');
         $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
 
-        $this->db->select('email_prodi.prodi');
+        // Lakukan join untuk mendapatkan nm_jrs
+        $this->db->select('jrskampus.nm_jrs'); 
         $this->db->from('mhs');
-        $this->db->join('email_prodi', 'mhs.kd_jrs = email_prodi.id');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
         $this->db->where('mhs.nim', $nim);
         $data['studi'] = $this->db->get()->row();
+       
+
+        
+        $this->load->view('pdf/pdfsuketmhs', $data);
+        
+    }
+    public function test_pdfskdo()
+    {
+        $nim = $this->session->userdata('nim');
+        $data['name'] = $this->session->userdata('name');
+        $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+
+        // Lakukan join untuk mendapatkan nm_jrs
+        $this->db->select('jrskampus.nm_jrs'); 
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $data['studi'] = $this->db->get()->row();
+       
+
+        
+        $this->load->view('pdf/pdfsuratdo', $data);
+        
+    }
+    public function cetaksuketriset()
+    {
+        // Ambil nilai 'no' dari POST
+        $no = $this->input->post('no', true);
+    
+        // Ambil data dari tabel surat_riset berdasarkan 'no'
+        $surat_riset = $this->db->get_where('surat_riset', ['no' => $no])->row();
+    
+        // Pastikan data surat_riset ditemukan
+        if (!$surat_riset) {
+            show_error('Data tidak ditemukan di tabel surat_riset.', 404);
+            return;
+        }
+    
+        // Ambil data dari session dan tabel mhs
+        $nim = $this->session->userdata('nim');
+        $data['name'] = $this->session->userdata('name');
+        $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+    
+        // Lakukan join untuk mendapatkan nm_jrs
+        $this->db->select('jrskampus.nm_jrs'); 
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $data['studi'] = $this->db->get()->row();
+    
+        // Tambahkan data dari surat_riset ke array data yang akan dikirim ke view
+        $data['surat_riset'] = $surat_riset;
+    
+        // Load view dengan data yang telah digabungkan
+        $this->load->view('pdf/pdfsurat_riset', $data);
+    }
+    
+    public function generate_pdfsuketmhs()
+    {
+        // Ambil data input dengan aman
+        $date = $this->input->get('log_date', true);
+        $jam = $this->input->get('log_time', true);
+        $nim = $this->session->userdata('nim');
+        $name = $this->session->userdata('name');
+    
+        // Pastikan NIM tersedia
+        if (empty($nim)) {
+            show_error('NIM tidak ditemukan dalam sesi.', 500);
+            return;
+        }
+    
+        // Ambil data mahasiswa
+        $mhs = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        if (!$mhs) {
+            show_error('Data mahasiswa tidak ditemukan.', 404);
+            return;
+        }
+    
+        // Lakukan join untuk mendapatkan nm_jrs
+        $this->db->select('jrskampus.nm_jrs'); 
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $studi = $this->db->get()->row();
+    
+        // Gabungkan semua data ke dalam satu array
+        $data = [
+            'date'  => $date,
+            'jam'   => $jam,
+            'name'  => $name,
+            'mhs'   => $mhs,
+            'studi' => $studi
+        ];
+    
         // Load view dan simpan output sebagai string
         $html = $this->load->view('pdf/pdfsuketmhs', $data, true);
-
+    
         // Konfigurasi Dompdf
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
-
+    
         // Inisialisasi Dompdf
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
-
+    
         // Render PDF
         $dompdf->render();
-
+    
+        // Nama file PDF
+        $filename = "Surat_Keterangan_" . $mhs->nim . ".pdf";
+    
         // Output PDF ke browser
-        $dompdf->stream("Surat_Keterangan_".$data['mhs']->nim.".pdf", array("Attachment" => false));
+        $dompdf->stream($filename, array("Attachment" => false));
     }
     public function generate_pdfsuratdo()
     {
@@ -53,7 +150,7 @@ class Pdf extends CI_Controller
         $data = [
             'nama' => $nama,
             'nim' => $nim,
-            'tanggal' => '19 Februari 2024'
+         
         ];
 
         // Load view dan simpan output sebagai string
