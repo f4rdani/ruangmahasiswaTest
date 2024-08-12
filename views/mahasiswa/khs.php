@@ -165,7 +165,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <center><a href="#" style="color: red;">cetak khs</a></center>
+                                <center><a href="<?= base_url("mahasiswa/khs_print")?>" style="color: red;">cetak khs</a></center>
                             </div>
                         </div>
                     </div>

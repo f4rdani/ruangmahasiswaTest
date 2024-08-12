@@ -138,15 +138,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header">
-                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS)</h5>
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 1</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>NIM:</strong> 17220430</p>
-                        <p><strong>Nama:</strong> Asyam Putra</p>
-                        <p><strong>Program Studi:</strong> Teknologi Informasi</p>
-                        <p><strong>Kelas:</strong> 17.4A.05</p>
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
                         <div class="table-responsive">
-                            <table  class=" text-nowrap w-100">
+                            <table class="text-nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -159,43 +159,23 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>712</td>
-                                        <td>ENTREPRENEURSHIP</td>
-                                        <td>3</td>
-                                        <td>A</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>894</td>
-                                        <td>DASAR PEMROGRAMAN</td>
-                                        <td>4</td>
-                                        <td>A</td>
-                                        <td>16</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>207</td>
-                                        <td>LOGIKA & ALGORITMA</td>
-                                        <td>4</td>
-                                        <td>B</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>101</td>
-                                        <td>PENDIDIKAN PANCASILA</td>
-                                        <td>2</td>
-                                        <td>A</td>
-                                        <td>8</td>
-                                        <td></td>
-                                    </tr>
-                                    
+                                    <?php if (!empty($penilaian_data_by_semester[1])) :
+                                        foreach ($penilaian_data_by_semester[1] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div>
@@ -215,15 +195,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     <tbody>
                                         <tr>
                                             <td colspan="4">Total Mutu</td>
-                                            <td>282</td>
+                                            <td><?php echo $totalMutu1; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Total SKS yang telah diambil</td>
-                                            <td>82</td>
+                                            <td><?php echo $totalSKS1; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
-                                            <td>3.44</td>
+                                            <td><?php echo $ipk1; ?></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -232,7 +212,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <center><a href="#" style="color: red;">cetak khs</a></center>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=1")?>" style="color: red;">cetak khs</a></center>
                             </div>
                         </div>
                     </div>
@@ -242,6 +222,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
         <!-- End:: row-8 -->
     </div>
 </div>
+
 <div id="khsContent2" class="card-body hidden">
     <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
         <!-- Start:: row-8 -->
@@ -249,15 +230,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header">
-                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS)</h5>
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 2</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>NIM:</strong> 17220430</p>
-                        <p><strong>Nama:</strong> Asyam Putra</p>
-                        <p><strong>Program Studi:</strong> Teknologi Informasi</p>
-                        <p><strong>Kelas:</strong> 17.4A.05</p>
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
                         <div class="table-responsive">
-                            <table  class=" text-nowrap w-100">
+                            <table class="text-nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -270,42 +251,23 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>104</td>
-                                        <td>BAHASA INGGRIS I</td>
-                                        <td>2</td>
-                                        <td>A</td>
-                                        <td>8</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>153</td>
-                                        <td>PENGANTAR TEKNOLOGI INFORMASI DAN KOMUNIKASI</td>
-                                        <td>3</td>
-                                        <td>A</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>896</td>
-                                        <td>MATEMATIKA DISKRIT</td>
-                                        <td>3</td>
-                                        <td>B</td>
-                                        <td>9</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>310</td>
-                                        <td>STRUKTUR DATA</td>
-                                        <td>3</td>
-                                        <td>B</td>
-                                        <td>9</td>
-                                        <td></td>
-                                    </tr>
+                                    <?php if (!empty($penilaian_data_by_semester[2])) :
+                                        foreach ($penilaian_data_by_semester[2] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div>
@@ -325,15 +287,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     <tbody>
                                         <tr>
                                             <td colspan="4">Total Mutu</td>
-                                            <td>282</td>
+                                            <td><?php echo $totalMutu2; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Total SKS yang telah diambil</td>
-                                            <td>82</td>
+                                            <td><?php echo $totalSKS2; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
-                                            <td>3.44</td>
+                                            <td><?php echo $ipk2; ?></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -342,7 +304,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <center><a href="#" style="color: red;">cetak khs</a></center>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=2")?>" style="color: red;">cetak khs</a></center>
                             </div>
                         </div>
                     </div>
@@ -352,6 +314,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
         <!-- End:: row-8 -->
     </div>
 </div>
+
 <div id="khsContent3" class="card-body hidden">
     <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
         <!-- Start:: row-8 -->
@@ -359,15 +322,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header">
-                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS)</h5>
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 3</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>NIM:</strong> 17220430</p>
-                        <p><strong>Nama:</strong> Asyam Putra</p>
-                        <p><strong>Program Studi:</strong> Teknologi Informasi</p>
-                        <p><strong>Kelas:</strong> 17.4A.05</p>
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
                         <div class="table-responsive">
-                            <table  class=" text-nowrap w-100">
+                            <table class="text-nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -380,42 +343,23 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>154</td>
-                                        <td>CHARACTER BUILDING</td>
-                                        <td>3</td>
-                                        <td>A</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>105</td>
-                                        <td>BAHASA INGGRIS II</td>
-                                        <td>2</td>
-                                        <td>A</td>
-                                        <td>8</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td>869</td>
-                                        <td>ARSITEKTUR KOMPUTER</td>
-                                        <td>3</td>
-                                        <td>B</td>
-                                        <td>9</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td>895</td>
-                                        <td>PEMROGRAMAN BERBASIS OBJEK</td>
-                                        <td>4</td>
-                                        <td>A</td>
-                                        <td>16</td>
-                                        <td></td>
-                                    </tr>
+                                    <?php if (!empty($penilaian_data_by_semester[3])) :
+                                        foreach ($penilaian_data_by_semester[3] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div>
@@ -435,15 +379,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     <tbody>
                                         <tr>
                                             <td colspan="4">Total Mutu</td>
-                                            <td>282</td>
+                                            <td><?php echo $totalMutu3; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Total SKS yang telah diambil</td>
-                                            <td>82</td>
+                                            <td><?php echo $totalSKS3; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
-                                            <td>3.44</td>
+                                            <td><?php echo $ipk3; ?></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -452,7 +396,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <center><a href="#" style="color: red;">cetak khs</a></center>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=3")?>" style="color: red;">cetak khs</a></center>
                             </div>
                         </div>
                     </div>
@@ -462,6 +406,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
         <!-- End:: row-8 -->
     </div>
 </div>
+
 <div id="khsContent4" class="card-body hidden">
     <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
         <!-- Start:: row-8 -->
@@ -469,15 +414,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-header">
-                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS)</h5>
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 4</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>NIM:</strong> 17220430</p>
-                        <p><strong>Nama:</strong> Asyam Putra</p>
-                        <p><strong>Program Studi:</strong> Teknologi Informasi</p>
-                        <p><strong>Kelas:</strong> 17.4A.05</p>
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
                         <div class="table-responsive">
-                            <table  class=" text-nowrap w-100">
+                            <table class="text-nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -490,42 +435,23 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>13</td>
-                                        <td>876</td>
-                                        <td>PRAKTIKUM JARINGAN KOMPUTER</td>
-                                        <td>4</td>
-                                        <td>B</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td>803</td>
-                                        <td>JARINGAN KOMPUTER</td>
-                                        <td>4</td>
-                                        <td>B</td>
-                                        <td>12</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td>700</td>
-                                        <td>STATISTIKA</td>
-                                        <td>3</td>
-                                        <td>B</td>
-                                        <td>9</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>16</td>
-                                        <td>0036</td>
-                                        <td>WEB PROGRAMMING I</td>
-                                        <td>4</td>
-                                        <td>A</td>
-                                        <td>16</td>
-                                        <td></td>
-                                    </tr>
+                                    <?php if (!empty($penilaian_data_by_semester[4])) :
+                                        foreach ($penilaian_data_by_semester[4] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div>
@@ -545,15 +471,15 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                     <tbody>
                                         <tr>
                                             <td colspan="4">Total Mutu</td>
-                                            <td>282</td>
+                                            <td><?php echo $totalMutu4; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Total SKS yang telah diambil</td>
-                                            <td>82</td>
+                                            <td><?php echo $totalSKS4; ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
-                                            <td>3.44</td>
+                                            <td><?php echo $ipk4; ?></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -562,7 +488,7 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <center><a href="#" style="color: red;">cetak khs</a></center>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=4")?>" style="color: red;">cetak khs</a></center>
                             </div>
                         </div>
                     </div>
@@ -573,21 +499,378 @@ if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
     </div>
 </div>
 
+
 <div id="khsContent5" class="card-body hidden">
-    <!-- The content for semester 5 here -->
+    <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
+        <!-- Start:: row-8 -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 5</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
+                        <div class="table-responsive">
+                            <table class="text-nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>SKS</th>
+                                        <th>Nilai</th>
+                                        <th>Mutu</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($penilaian_data_by_semester[5])) :
+                                        foreach ($penilaian_data_by_semester[5] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5"><center><strong>Bobot Nilai</strong></center></td>
+                                        </tr>
+                                        <tr>
+                                            <th>A = 4</th>
+                                            <th>B = 3</th>
+                                            <th>C = 2</th>
+                                            <th>D = 1</th>
+                                            <th>E = 0</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Total Mutu</td>
+                                            <td><?php echo $totalMutu5; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Total SKS yang telah diambil</td>
+                                            <td><?php echo $totalSKS5; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
+                                            <td><?php echo $ipk5; ?></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5"><small><i>Pengolahan Data KHS Menggunakan Web ini adalah sah</i></small></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=5")?>" style="color: red;">cetak khs</a></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End:: row-8 -->
+    </div>
 </div>
+
 
 <div id="khsContent6" class="card-body hidden">
-    <!-- The content for semester 6 here -->
+    <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
+        <!-- Start:: row-8 -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 6</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
+                        <div class="table-responsive">
+                            <table class="text-nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>SKS</th>
+                                        <th>Nilai</th>
+                                        <th>Mutu</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($penilaian_data_by_semester[6])) :
+                                        foreach ($penilaian_data_by_semester[6] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5"><center><strong>Bobot Nilai</strong></center></td>
+                                        </tr>
+                                        <tr>
+                                            <th>A = 4</th>
+                                            <th>B = 3</th>
+                                            <th>C = 2</th>
+                                            <th>D = 1</th>
+                                            <th>E = 0</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Total Mutu</td>
+                                            <td><?php echo $totalMutu6; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Total SKS yang telah diambil</td>
+                                            <td><?php echo $totalSKS6; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
+                                            <td><?php echo $ipk6; ?></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5"><small><i>Pengolahan Data KHS Menggunakan Web ini adalah sah</i></small></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=6")?>" style="color: red;">cetak khs</a></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End:: row-8 -->
+    </div>
 </div>
+
 
 <div id="khsContent7" class="card-body hidden">
-    <!-- The content for semester 7 here -->
+    <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
+        <!-- Start:: row-8 -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 7</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
+                        <div class="table-responsive">
+                            <table class="text-nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>SKS</th>
+                                        <th>Nilai</th>
+                                        <th>Mutu</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($penilaian_data_by_semester[7])) :
+                                        foreach ($penilaian_data_by_semester[7] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5"><center><strong>Bobot Nilai</strong></center></td>
+                                        </tr>
+                                        <tr>
+                                            <th>A = 4</th>
+                                            <th>B = 3</th>
+                                            <th>C = 2</th>
+                                            <th>D = 1</th>
+                                            <th>E = 0</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Total Mutu</td>
+                                            <td><?php echo $totalMutu7; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Total SKS yang telah diambil</td>
+                                            <td><?php echo $totalSKS7; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
+                                            <td><?php echo $ipk7; ?></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5"><small><i>Pengolahan Data KHS Menggunakan Web ini adalah sah</i></small></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=7")?>" style="color: red;">cetak khs</a></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End:: row-8 -->
+    </div>
 </div>
 
+
 <div id="khsContent8" class="card-body hidden">
-    <!-- The content for semester 8 here -->
+    <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
+        <!-- Start:: row-8 -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <h5 class="page-title fs-21 mb-1">KARTU HASIL STUDI (KHS) - Semester 8</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>NIM:</strong> <?php echo $student['nim']; ?></p>
+                        <p><strong>Nama:</strong> <?php echo $student['nm_mhs']; ?></p>
+                        <p><strong>Program Studi:</strong> <?php echo $student['nm_jrs']; ?></p>
+                        <p><strong>Kelas:</strong> <?php echo $student['kd_lokal']; ?></p>
+                        <div class="table-responsive">
+                            <table class="text-nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>SKS</th>
+                                        <th>Nilai</th>
+                                        <th>Mutu</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($penilaian_data_by_semester[8])) :
+                                        foreach ($penilaian_data_by_semester[8] as $index => $row) : ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td><?php echo $row['kd_mtk']; ?></td>
+                                                <td><?php echo $row['nm_mtk']; ?></td>
+                                                <td><?php echo $row['sks']; ?></td>
+                                                <td><?php echo $row['grade_akhir']; ?></td>
+                                                <td><?php echo $row['nmutu']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach;
+                                    else : ?>
+                                        <tr>
+                                            <td colspan="7">No data available</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5"><center><strong>Bobot Nilai</strong></center></td>
+                                        </tr>
+                                        <tr>
+                                            <th>A = 4</th>
+                                            <th>B = 3</th>
+                                            <th>C = 2</th>
+                                            <th>D = 1</th>
+                                            <th>E = 0</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Total Mutu</td>
+                                            <td><?php echo $totalMutu8; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Total SKS yang telah diambil</td>
+                                            <td><?php echo $totalSKS8; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">Indeks Prestasi Kumulatif (IPK)</td>
+                                            <td><?php echo $ipk8; ?></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5"><small><i>Pengolahan Data KHS Menggunakan Web ini adalah sah</i></small></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <center><a href="<?= base_url("mahasiswa/khs_semester_print?semester=8")?>" style="color: red;">cetak khs</a></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End:: row-8 -->
+    </div>
 </div>
+
 <script>
     document.getElementById('submitButton').addEventListener('click', function() {
         var semester = document.getElementById('semesterSelect').value;
