@@ -882,25 +882,315 @@ $data['mhs'] = $this->db->get()->result();
             show_404();
         }
     }
+	public function khs_print()
+    {
+        $nim = $this->session->userdata('nim');
+        $id = 12;
+        $data['name'] = $this->session->userdata('name');
+        $data['tgl'] = $this->db->get_where('konfigurasi_tanggal', ['id_tanggal' => $id])->row();
+
+        // Fetch penilaian data
+        $penilaian_nim = $this->db->get_where('penilaian', ['nim' => $nim])->result();
+
+        $penilaian_data = [];
+        foreach ($penilaian_nim as $penilaian) {
+            $mtk = $this->db->get_where('mtk', ['kd_mtk' => $penilaian->kd_mtk])->row();
+            if ($mtk) {
+                $nilai = 0;
+                switch ($penilaian->grade_akhir) {
+                    case 'A':
+                        $nilai = 4;
+                        break;
+                    case 'B':
+                        $nilai = 3;
+                        break;
+                    case 'C':
+                        $nilai = 2;
+                        break;
+                    case 'D':
+                        $nilai = 1;
+                        break;
+                    case 'E':
+                        $nilai = 0;
+                        break;
+                }
+                $mutu = $mtk->sks * $nilai;
+                $penilaian_data[] = [
+                    'kd_mtk' => $penilaian->kd_mtk,
+                    'nm_mtk' => $mtk->nm_mtk,
+                    'sks' => $mtk->sks,
+                    'grade_akhir' => $penilaian->grade_akhir,
+                    'nmutu' => $mutu,
+                ];
+            }
+        }
+        $data['penilaian_nim'] = $penilaian_data;
+
+        // Fetch student data from 'mhs' table
+        $this->db->select('nim, nm_mhs, kd_lokal, kd_jrs, kd_kampus');
+        $this->db->from('mhs');
+        $this->db->where('nim', $nim);
+        $query = $this->db->get();
+        $student = $query->row_array();
+
+        if ($student) {
+            // Fetch program study data from 'jrskampus' table
+            $this->db->select('nm_jrs');
+            $this->db->from('jrskampus');
+            $this->db->where('kd_jrs', $student['kd_jrs']);
+            $this->db->where('kd_cab', $student['kd_kampus']);
+            $query = $this->db->get();
+            $program_study = $query->row_array();
+
+            if ($program_study) {
+                $student['nm_jrs'] = $program_study['nm_jrs'];
+            } else {
+                $student['nm_jrs'] = 'Unknown';
+            }
+
+            // Calculate total mutu and SKS
+            $totalMutu = 0;
+            $totalSKS = 0;
+            foreach ($penilaian_data as $penilaian) {
+                $totalMutu += $penilaian['nmutu'];
+                $totalSKS += $penilaian['sks'];
+            }
+
+            // Calculate IPK
+            $ipk = ($totalSKS != 0) ? $totalMutu / $totalSKS : 0;
+
+            $data['student'] = $student;
+            $data['totalMutu'] = $totalMutu;
+            $data['totalSKS'] = $totalSKS;
+            $data['ipk'] = number_format($ipk, 2);
+
+            // Check user role and load views
+            if ($this->session->userdata('role') == "mahasiswa") {
+                $this->load->view('mahasiswa/khs_print', $data);
+            } else {
+                redirect('Auth/Logoutmhs');
+            }
+        } else {
+            show_404();
+        }
+    }
 	public function khs_semester()
     {
         $nim = $this->session->userdata('nim');
-        $id = 13;
-        $data['name'] = $this->session->userdata('name');
-        $data['tgl'] = $this->db->get_where('konfigurasi_tanggal', ['id_tanggal' => $id])->row();
-    
-        // Periksa peran pengguna
+    $id = 12;
+    $data['name'] = $this->session->userdata('name');
+    $data['tgl'] = $this->db->get_where('konfigurasi_tanggal', ['id_tanggal' => $id])->row();
+
+    // Initialize an array to hold data for each semester
+    $penilaian_data_by_semester = [];
+
+    // Loop through each semester (1 to 8) and fetch data
+    for ($semester = 1; $semester <= 8; $semester++) {
+        // Fetch penilaian data with semester filter
+        $this->db->select('penilaian.*, mtk.nm_mtk, mtk.sks');
+        $this->db->from('penilaian');
+        $this->db->join('mtk', 'penilaian.kd_mtk = mtk.kd_mtk', 'left');
+        $this->db->where('penilaian.nim', $nim);
+
+        // Filter by semester using SQL string functions
+        $this->db->where("SUBSTRING_INDEX(SUBSTRING_INDEX(penilaian.no_krs, '.', 2), '.', -1) = ", $semester);
+
+        $penilaian_nim = $this->db->get()->result();
+
+        $penilaian_data = [];
+        foreach ($penilaian_nim as $penilaian) {
+            $nilai = 0;
+            switch ($penilaian->grade_akhir) {
+                case 'A':
+                    $nilai = 4;
+                    break;
+                case 'B':
+                    $nilai = 3;
+                    break;
+                case 'C':
+                    $nilai = 2;
+                    break;
+                case 'D':
+                    $nilai = 1;
+                    break;
+                case 'E':
+                    $nilai = 0;
+                    break;
+            }
+            $mutu = $penilaian->sks * $nilai;
+            $penilaian_data[] = [
+                'kd_mtk' => $penilaian->kd_mtk,
+                'nm_mtk' => $penilaian->nm_mtk,
+                'sks' => $penilaian->sks,
+                'grade_akhir' => $penilaian->grade_akhir,
+                'nmutu' => $mutu,
+            ];
+        }
+
+        // Store the data in the corresponding semester array
+        $penilaian_data_by_semester[$semester] = $penilaian_data;
+    }
+
+    // Fetch student data from 'mhs' table
+    $this->db->select('nim, nm_mhs, kd_lokal, kd_jrs, kd_kampus');
+    $this->db->from('mhs');
+    $this->db->where('nim', $nim);
+    $query = $this->db->get();
+    $student = $query->row_array();
+
+    if ($student) {
+        // Fetch program study data from 'jrskampus' table
+        $this->db->select('nm_jrs');
+        $this->db->from('jrskampus');
+        $this->db->where('kd_jrs', $student['kd_jrs']);
+        $this->db->where('kd_cab', $student['kd_kampus']);
+        $query = $this->db->get();
+        $program_study = $query->row_array();
+
+        if ($program_study) {
+            $student['nm_jrs'] = $program_study['nm_jrs'];
+        } else {
+            $student['nm_jrs'] = 'Unknown';
+        }
+
+        $data['student'] = $student;
+
+        // Loop through each semester to calculate total Mutu, SKS, and IPK
+        for ($semester = 1; $semester <= 8; $semester++) {
+            $totalMutu = 0;
+            $totalSKS = 0;
+
+            foreach ($penilaian_data_by_semester[$semester] as $penilaian) {
+                $totalMutu += $penilaian['nmutu'];
+                $totalSKS += $penilaian['sks'];
+            }
+
+            // Calculate IPK
+            $ipk = ($totalSKS != 0) ? $totalMutu / $totalSKS : 0;
+
+            // Store the totals and IPK in the data array for each semester
+            $data['totalMutu' . $semester] = $totalMutu;
+            $data['totalSKS' . $semester] = $totalSKS;
+            $data['ipk' . $semester] = number_format($ipk, 2);
+        }
+
+        // Pass the data to the view
+        $data['penilaian_data_by_semester'] = $penilaian_data_by_semester;
+
+        // Check user role and load views
         if ($this->session->userdata('role') == "mahasiswa") {
-            // Load views jika peran adalah mahasiswa
             $this->load->view('layouts/header');
             $this->load->view('layouts/sidebar');
             $this->load->view('mahasiswa/khs_semester', $data);
             $this->load->view('layouts/footer');
         } else {
-            // Redirect ke halaman logout jika bukan mahasiswa
             redirect('Auth/Logoutmhs');
         }
+    } else {
+        show_404();
     }
+}
+
+	public function khs_semester_print() 
+{
+    $nim = $this->session->userdata('nim');
+    $id = 12;
+    $semester = $this->input->get('semester');
+    $data['name'] = $this->session->userdata('name');
+    $data['tgl'] = $this->db->get_where('konfigurasi_tanggal', ['id_tanggal' => $id])->row();
+
+    // Fetch penilaian data with semester filter
+    $this->db->select('penilaian.*, mtk.nm_mtk, mtk.sks');
+    $this->db->from('penilaian');
+    $this->db->join('mtk', 'penilaian.kd_mtk = mtk.kd_mtk', 'left');
+    $this->db->where('penilaian.nim', $nim);
+
+    // Filter by semester using SQL string functions
+    $this->db->where("SUBSTRING_INDEX(SUBSTRING_INDEX(penilaian.no_krs, '.', 2), '.', -1) = ", $semester);
+
+    $penilaian_nim = $this->db->get()->result();
+
+    $penilaian_data = [];
+    foreach ($penilaian_nim as $penilaian) {
+        $nilai = 0;
+        switch ($penilaian->grade_akhir) {
+            case 'A':
+                $nilai = 4;
+                break;
+            case 'B':
+                $nilai = 3;
+                break;
+            case 'C':
+                $nilai = 2;
+                break;
+            case 'D':
+                $nilai = 1;
+                break;
+            case 'E':
+                $nilai = 0;
+                break;
+        }
+        $mutu = $penilaian->sks * $nilai;
+        $penilaian_data[] = [
+            'kd_mtk' => $penilaian->kd_mtk,
+            'nm_mtk' => $penilaian->nm_mtk,
+            'sks' => $penilaian->sks,
+            'grade_akhir' => $penilaian->grade_akhir,
+            'nmutu' => $mutu,
+        ];
+    }
+    $data['penilaian_nim'] = $penilaian_data;
+
+    // Fetch student data from 'mhs' table
+    $this->db->select('nim, nm_mhs, kd_lokal, kd_jrs, kd_kampus');
+    $this->db->from('mhs');
+    $this->db->where('nim', $nim);
+    $query = $this->db->get();
+    $student = $query->row_array();
+
+    if ($student) {
+        // Fetch program study data from 'jrskampus' table
+        $this->db->select('nm_jrs');
+        $this->db->from('jrskampus');
+        $this->db->where('kd_jrs', $student['kd_jrs']);
+        $this->db->where('kd_cab', $student['kd_kampus']);
+        $query = $this->db->get();
+        $program_study = $query->row_array();
+
+        if ($program_study) {
+            $student['nm_jrs'] = $program_study['nm_jrs'];
+        } else {
+            $student['nm_jrs'] = 'Unknown';
+        }
+
+        // Calculate total mutu and SKS
+        $totalMutu = 0;
+        $totalSKS = 0;
+        foreach ($penilaian_data as $penilaian) {
+            $totalMutu += $penilaian['nmutu'];
+            $totalSKS += $penilaian['sks'];
+        }
+
+        // Calculate IPK
+        $ipk = ($totalSKS != 0) ? $totalMutu / $totalSKS : 0;
+
+        $data['student'] = $student;
+        $data['totalMutu'] = $totalMutu;
+        $data['totalSKS'] = $totalSKS;
+        $data['ipk'] = number_format($ipk, 2);
+
+        // Check user role and load views
+        if ($this->session->userdata('role') == "mahasiswa") {
+           
+            $this->load->view('mahasiswa/khs_semester_print', $data);
+          
+        } else {
+            redirect('Auth/Logoutmhs');
+        }
+    } else {
+        show_404();
+    }
+}
 
 	public function suratbio()
 {
