@@ -87,7 +87,7 @@
                         <?php endforeach; ?>
                     </div>
                     <div class="card-footer ">
-                        <div class="position-absolute bottom-0 start-50 translate-middle-x " style="margin-bottom: 6px;"><a href="#" class="link-success fw-semibold fs-12">ARSIP BERITA MAHASISWA</a></div>
+                        <div class="position-absolute bottom-0 start-50 translate-middle-x " style="margin-bottom: 6px;"><a href="<?= base_url()?>mahasiswa/arsip_berita_mahasiswa" class="link-success fw-semibold fs-12">ARSIP BERITA MAHASISWA</a></div>
                     </div>
                 </div>
             </div>
