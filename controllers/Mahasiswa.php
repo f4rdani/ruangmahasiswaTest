@@ -38,6 +38,18 @@ class Mahasiswa extends CI_Controller {
 		redirect('Auth/Logoutmhs');
 	}
 	}
+	public function arsip_berita_mahasiswa()
+	{
+		if ($this->session->userdata('role')=="mahasiswa") {
+		$data['data'] = $this->db->get('berita_index_mhs')->result();
+		$this->load->view('layouts/header', $data);
+		$this->load->view('layouts/sidebar', $data);
+		$this->load->view('mahasiswa/arsip_berita_mahasiswa', $data);
+		$this->load->view('layouts/footer', $data);
+	} else {
+		redirect('Auth/Logoutmhs');
+	}
+	}
     public function emailstudi()
 	{
 		if ($this->session->userdata('role')=="mahasiswa") {
