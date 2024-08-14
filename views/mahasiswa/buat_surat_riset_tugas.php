@@ -111,20 +111,19 @@
                                     <label for="text-area" class="form-label fs-14 text-dark">Masukkan Nama Program / Tugas : </label>
                                     <input class="form-control" id="text-area" rows="7"></input>
 									<label for="form-text" class="form-label fs-14 text-dark">Pilih Matakuliah</label>                                
-								<select class="form-select" aria-label="Default select example">
-									<option selected>=Pilih Matakuliah=
-									</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
+									<select class="form-select" aria-label="Default select example">
+										<option selected disabled>=Pilih Matakuliah=</option>
+										<?php foreach($mhs as $pri): ?>
+											<option value="1"><?= $pri->nm_mtk ?></option>
+										<?php endforeach; ?>
+									</select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+		</div>
         <!-- row3 -->
         <div class="row">
             <div class="col-xxl-12 col-xl-12 col-lg-12 mx-auto">
