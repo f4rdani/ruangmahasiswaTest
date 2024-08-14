@@ -141,6 +141,33 @@ class Mahasiswa extends CI_Controller {
             echo 'Gagal menghapus data';
         }
     }
+	public function  buat_surat_riset_tugas()
+    {
+        $nim = $this->session->userdata('nim');
+        $semester = 4; // Set the semester you want to filter by
+        $data['name'] = $this->session->userdata('name');
+        // Select only the necessary columns
+        $this->db->select('mhs.*, penilaian.*, mtk.*');
+        $this->db->from('mhs');
+        $this->db->join('penilaian', 'mhs.nim = penilaian.nim', 'left');
+        $this->db->join('mtk', 'penilaian.kd_mtk = mtk.kd_mtk', 'left');
+        $this->db->where('mhs.nim', $nim);
+
+        // Filter by semester using SQL string functions
+        $this->db->where("SUBSTRING_INDEX(SUBSTRING_INDEX(penilaian.no_krs, '.', 2), '.', -1) = ", $semester);
+
+        $data['mhs'] = $this->db->get()->result();
+
+        if ($this->session->userdata('role') == "mahasiswa") {
+            $this->load->view('layouts/header');
+            $this->load->view('layouts/sidebar');
+            $this->load->view('mahasiswa/buat_surat_riset_tugas', $data);
+            $this->load->view('layouts/footer');
+        } else {
+            redirect('Auth/Logoutmhs');
+        }
+    }
+	
 	 public function  surat_keterangan()
     {
         $nim = $this->session->userdata('nim');
