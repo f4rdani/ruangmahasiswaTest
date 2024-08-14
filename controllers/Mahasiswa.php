@@ -144,7 +144,6 @@ class Mahasiswa extends CI_Controller {
 	public function  buat_surat_riset_tugas()
     {
         $nim = $this->session->userdata('nim');
-        $semester = 4; // Set the semester you want to filter by
         $data['name'] = $this->session->userdata('name');
         // Select only the necessary columns
         $this->db->select('mhs.*, penilaian.*, mtk.*');
@@ -153,8 +152,8 @@ class Mahasiswa extends CI_Controller {
         $this->db->join('mtk', 'penilaian.kd_mtk = mtk.kd_mtk', 'left');
         $this->db->where('mhs.nim', $nim);
 
-        // Filter by semester using SQL string functions
-        $this->db->where("SUBSTRING_INDEX(SUBSTRING_INDEX(penilaian.no_krs, '.', 2), '.', -1) = ", $semester);
+        // Filter by aktif column where it equals 1 (true)
+        $this->db->where('penilaian.aktif', 1);
 
         $data['mhs'] = $this->db->get()->result();
 
