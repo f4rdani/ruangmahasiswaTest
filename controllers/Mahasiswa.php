@@ -812,7 +812,19 @@ $data['mhs'] = $this->db->get()->result();
         $id = 18;
         $data['name'] = $this->session->userdata('name');
         $data['tgl'] = $this->db->get_where('konfigurasi_tanggal', ['id_tanggal' => $id])->row();
-    
+        
+         // Select only the necessary columns
+    $this->db->select('mhs.*, penilaian.*, mtk.*');
+    $this->db->from('mhs');
+    $this->db->join('penilaian', 'mhs.nim = penilaian.nim', 'left');
+    $this->db->join('mtk', 'penilaian.kd_mtk = mtk.kd_mtk', 'left');
+    $this->db->where('mhs.nim', $nim);
+
+    // Filter by aktif column where it equals 1 (true)
+    $this->db->where('penilaian.aktif', 1);
+
+    // Execute the query and get the results
+    $data['mhs'] = $this->db->get()->result();
         // Periksa peran pengguna
         if ($this->session->userdata('role') == "mahasiswa") {
             // Load views jika peran adalah mahasiswa
