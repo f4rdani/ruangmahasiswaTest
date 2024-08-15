@@ -229,7 +229,7 @@ function is_active($url) {
       <a href="<?= base_url('Mahasiswa/klndrak') ?>" class="side-menu__item <?= (base_url('Mahasiswa/klndrak') == $current_url) ? 'active' : '' ?>">Kalender Akademik</a>
     </li>
     <li class="slide">
-      <a href="<?= base_url('Mahasiswa') ?>" class="side-menu__item">Jadwal Kuliah</a>
+      <a href="<?= base_url('Mahasiswa/Jadwal_kuliah') ?>" class="side-menu__item">Jadwal Kuliah</a>
     </li>
     <li class="slide">
       <a href="<?= base_url('Mahasiswa') ?>" class="side-menu__item">Jadwal Mengajar Dosen</a>
