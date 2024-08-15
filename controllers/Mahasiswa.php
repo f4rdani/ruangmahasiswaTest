@@ -1024,6 +1024,42 @@ $data['mhs'] = $this->db->get()->result();
             show_404();
         }
     }
+	 public function Jadwal_kuliah()
+    {
+        $nim = $this->session->userdata('nim');
+        $data['name'] = $this->session->userdata('name');
+    
+        // Ambil data mahasiswa berdasarkan NIM untuk mendapatkan kd_lokal
+        $mahasiswa = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        if ($mahasiswa) {
+            $kd_lokal = $mahasiswa->kd_lokal;
+    
+            // Ambil jadwal kuliah berdasarkan kd_lokal dan urutkan berdasarkan hari
+            $this->db->select('pertemuan.*, mtk.nm_mtk');
+            $this->db->from('pertemuan');
+            $this->db->join('mtk', 'pertemuan.kd_mtk = mtk.kd_mtk');
+            $this->db->where('pertemuan.kd_lokal', $kd_lokal);
+            $this->db->order_by("FIELD(pertemuan.hari_t, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')");
+            $data['jadwal'] = $this->db->get()->result();
+    
+            // Tambahkan kd_lokal ke data yang akan dikirim ke view
+            $data['kd_lokal'] = $kd_lokal;
+    
+            // Load views jika peran adalah mahasiswa
+            if ($this->session->userdata('role') == "mahasiswa") {
+                $this->load->view('layouts/header');
+                $this->load->view('layouts/sidebar');
+                $this->load->view('mahasiswa/jadwal_kuliah', $data);
+                $this->load->view('layouts/footer');
+            } else {
+                // Redirect ke halaman logout jika bukan mahasiswa
+                redirect('Auth/Logoutmhs');
+            }
+        } else {
+            // Handle jika data mahasiswa tidak ditemukan
+            redirect('Mahasiswa');
+        }
+    }
 	public function khs_semester()
     {
         $nim = $this->session->userdata('nim');
