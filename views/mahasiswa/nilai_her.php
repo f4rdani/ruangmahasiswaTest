@@ -67,18 +67,55 @@ $current_date_time = new DateTime("$current_year-$current_month_num-$current_day
 
 // Memeriksa apakah tanggal dan waktu saat ini berada dalam rentang tanggal dan waktu buka dan tutup
 if ($current_date_time >= $open_date && $current_date_time <= $close_date): ?>
-    <div class="row"> 
-        <div class="col-lg-12 col-md-12 col-xl-12">
-            <div class="card mb-4 text-center">
-                <div class="card-body h-100">
-                    <img src="<?= base_url('assets') ?>/images/svgicons/imac.svg" alt="" class="w-39">
-                    <h5 class="mt-3 tx-18">dibuka</h5>
-                    <a href="javascript:void(0);" class="">Tanggal Buka : <code><?php echo $tgl->tgl_buka; ?> <?php echo $tgl->bln_buka; ?> <?php echo $tgl->thn_buka; ?></code> Jam buka:<code><?php echo $tgl->jam_buka; ?>:<?php echo $tgl->menit_buka; ?></code></a>
-                    <p>Jam Buka <code><?php echo $tgl->jam_buka; ?>:<?php echo $tgl->menit_buka; ?></code></p>
-                </div>
-            </div>
+    <!-- Page Header -->
+<div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+    <div class="my-auto">
+        <h5 class="page-title fs-21 mb-1">Nilai HER</h5>
+    </div>
+</div>
+<!-- Page Header Close -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table text-nowrap table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Kode</th>
+                        <th scope="col">Mata Kuliah</th>
+                        <th scope="col">SKS</th>
+                        <th scope="col">Nilai HER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $n = 1;
+                    foreach($mhs as $pri): ?>
+                    <tr>
+                        <th scope="row">
+                            <div class="d-flex align-items-center">
+                                <?= $n++ ?>
+                            </div>
+                        </th>
+                        <td><?= $pri->kd_mtk ?></td>
+                        <td><?= $pri->nm_mtk ?></td>
+                        <td><?= $pri->sks ?></td>
+                        <td><?= $pri->nilai_her ?></td>
+                    </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <div class="text-center mt-4">
+        
+        <a href="<?= base_url("mahasiswa/nilai_murni_print") ?>" class="btn btn-link text-primary"><strong>Cetak Nilai Murni</strong></a>
+        
+    </div>
+    
+</div>
 <?php else: ?>
     <div class="row"> 
         <div class="col-lg-12 col-md-12 col-xl-12">
