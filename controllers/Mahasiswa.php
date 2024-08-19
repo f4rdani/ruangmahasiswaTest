@@ -70,6 +70,22 @@ class Mahasiswa extends CI_Controller {
 		redirect('Auth/Logoutmhs');
 	}
 	}
+	public function jadwal_mengajar()
+	{
+		if ($this->session->userdata('role')=="mahasiswa") {
+            $this->db->select('pertemuan.*, mtk.nm_mtk');
+            $this->db->from('pertemuan');
+            $this->db->join('mtk', 'pertemuan.kd_mtk = mtk.kd_mtk');
+            $query = $this->db->get();
+            $data['pertemuan'] = $query->result();
+		$this->load->view('layouts/header', $data);
+		$this->load->view('layouts/sidebar', $data);
+		$this->load->view('mahasiswa/jadwal_mengajar_dosen', $data);
+		$this->load->view('layouts/footer', $data);
+	} else {
+		redirect('Auth/Logoutmhs');
+	}
+    }
 	public function  buat_surat_riset()
     {
         $nim = $this->session->userdata('nim');
