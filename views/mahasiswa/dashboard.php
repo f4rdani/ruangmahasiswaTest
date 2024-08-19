@@ -64,7 +64,7 @@
         <!-- row1 -->
         <div class="row">
             <!-- mykonten -->
-            <div class="col-sm-12 col-md-12">
+           <div class="col-sm-12 col-md-10">
                 <div class="card overflow-hidden">
                     <div class="card-header pb-0">
                         <div class="d-flex justify-content-between">
@@ -88,6 +88,37 @@
                     </div>
                     <div class="card-footer ">
                         <div class="position-absolute bottom-0 start-50 translate-middle-x " style="margin-bottom: 6px;"><a href="<?= base_url()?>mahasiswa/arsip_berita_mahasiswa" class="link-success fw-semibold fs-12">ARSIP BERITA MAHASISWA</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header pb-1">
+                        <h3 class="card-title mb-2">Data Singkat Mahasiswa</h3>
+
+                    </div>
+                    <div class="product-timeline card-body pt-2 mt-1">
+                        <ul class="timeline-1 mb-0">
+                            <li class="mt-0"> <i class="fe fe-pie-chart bg-primary-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Nim</span>
+                                <p class="mb-0 text-muted fs-12"><?php echo $mhs->nim; ?></p>
+                            </li>
+                            <li class="mt-0"> <i class="fe fe-home bg-danger-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Kelas</span>
+                                <p class="mb-0 text-muted fs-12"><?php echo $mhs->kd_lokal; ?></p>
+                            </li>
+                            <li class="mt-0"> <i class="fe fe-bar-chart bg-success-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">semester</span>
+                                <p class="mb-0 text-muted fs-12"><?php $semester = preg_replace('/[^0-9]/', '', explode('.', $mhs->kd_lokal)[1]);
+                                                                    echo $semester; ?>
+
+                                </p>
+                            </li>
+                            <li class="mt-0"> <i class="fe fe-box bg-warning-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Jurusan</span>
+                                <p class="mb-0 text-muted fs-12"><?php echo $mhs->kd_jrs; ?></p>
+                            </li>
+                            <li class="mt-0"> <i class="fe fe-shield bg-info-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Status</span>
+                                <p class="mb-0 text-muted fs-12">Aktif</p>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
             </div>
