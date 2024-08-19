@@ -16,9 +16,14 @@ class Mahasiswa extends CI_Controller {
 	public function index()
 	{
         $nim = $this->session->userdata('nim');
-		$data['data'] = $this->db->get('berita_index_mhs')->result();
-		$data['announcements'] = $this->db->where('showed', 1)->get('berita_index_mhs')->result();
+	$data['data'] = $this->db->get('berita_index_mhs')->result();
+	$data['announcements'] = $this->db->where('showed', 1)->get('berita_index_mhs')->result();
         $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+	$this->db->select('jrskampus.nm_jrs'); 
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $data['studi'] = $this->db->get()->row();
     if ($this->session->userdata('role')=="mahasiswa") {
 		$this->load->view('layouts/header');
 		$this->load->view('layouts/sidebar');
