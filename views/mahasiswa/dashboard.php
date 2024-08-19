@@ -112,7 +112,7 @@
                                 </p>
                             </li>
                             <li class="mt-0"> <i class="fe fe-box bg-warning-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Jurusan</span>
-                                <p class="mb-0 text-muted fs-12"><?php echo $mhs->kd_jrs; ?></p>
+                                <p class="mb-0 text-muted fs-12"><?php echo $studi->nm_jrs; ?></p>
                             </li>
                             <li class="mt-0"> <i class="fe fe-shield bg-info-gradient text-fixed-white product-icon"></i> <span class="fw-medium mb-4 fs-14">Status</span>
                                 <p class="mb-0 text-muted fs-12">Aktif</p>
