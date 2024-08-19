@@ -232,7 +232,7 @@ function is_active($url) {
       <a href="<?= base_url('Mahasiswa/Jadwal_kuliah') ?>" class="side-menu__item">Jadwal Kuliah</a>
     </li>
     <li class="slide">
-      <a href="<?= base_url('Mahasiswa') ?>" class="side-menu__item">Jadwal Mengajar Dosen</a>
+      <a href="<?= base_url('Mahasiswa/jadwal_mengajar') ?>" class="side-menu__item">Jadwal Mengajar Dosen</a>
     </li>
     <li class="slide">
       <a href="<?= base_url('Mahasiswa/emailstudi') ?>" class="side-menu__item">Email Program Studi</a>
