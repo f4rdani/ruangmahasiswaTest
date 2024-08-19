@@ -159,7 +159,8 @@
                     <tr>
                         <td style="width: 200px;">Semester </td>
                         <td style="width: 5px;">:</td>
-                        <td> 999</td>
+                        <td><?php $semester = preg_replace('/[^0-9]/', '', explode('.', $mhs->kd_lokal)[1]);
+                                                                    echo $semester; ?></td>
                     </tr>
                     <?php
                     function getAcademicYear()
