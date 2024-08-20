@@ -586,6 +586,23 @@ public function  buat_surat_riset_tugas()
         redirect('Auth/Logoutmhs');
     }
 }
+	public function  p_aktif_cuti()
+    {
+        $nim = $this->session->userdata('nim');
+        $data['name'] = $this->session->userdata('name');
+        $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        // Periksa peran pengguna
+        if ($this->session->userdata('role') == "mahasiswa") {
+            // Load views jika peran adalah mahasiswa
+            $this->load->view('layouts/header');
+            $this->load->view('layouts/sidebar');
+            $this->load->view('mahasiswa/pengajuan_aktif_cuti_akademik', $data);
+            $this->load->view('layouts/footer');
+        } else {
+            // Redirect ke halaman logout jika bukan mahasiswa
+            redirect('Auth/Logoutmhs');
+        }
+    }
 
 	public function mhscuti()
 	{
