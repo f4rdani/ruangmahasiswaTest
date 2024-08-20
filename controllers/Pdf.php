@@ -83,6 +83,30 @@ class Pdf extends CI_Controller
         // Load view dengan data yang telah digabungkan
         $this->load->view('pdf/pdfsurat_riset', $data);
     }
+     public function test_pdfkrs()
+    {
+        $nim = $this->session->userdata('nim');
+        $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        $this->db->select('jrskampus.nm_jrs');
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $data['studi'] = $this->db->get()->row();
+        $mahasiswa = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        $kd_lokal = $mahasiswa->kd_lokal;
+         // Ambil jadwal kuliah berdasarkan kd_lokal dan urutkan berdasarkan hari
+         $this->db->select('pertemuan.*, mtk.nm_mtk');
+         $this->db->from('pertemuan');
+         $this->db->join('mtk', 'pertemuan.kd_mtk = mtk.kd_mtk');
+         $this->db->where('pertemuan.kd_lokal', $kd_lokal);
+         $this->db->order_by("FIELD(pertemuan.hari_t, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')");
+         $data['jadwal'] = $this->db->get()->result();
+       
+
+        
+        $this->load->view('pdf/pdfkrs', $data);
+        
+    }
     
     public function generate_pdfsuketmhs()
     {
