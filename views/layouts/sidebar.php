@@ -198,7 +198,7 @@ function is_active($url) {
       <a href="<?= base_url('Mahasiswa/pengajuan_mutasi_kampus') ?>" class="side-menu__item <?= (base_url('Mahasiswa/pengajuan_mutasi_kampus') == $current_url) ? 'active' : '' ?>">Pengajuan Mutasi Kampus</a>
     </li>
     <li class="slide">
-      <a href="<?= base_url('Mahasiswa') ?>" class="side-menu__item">Pengajuan Aktif Cuti Akademik</a>
+      <a href="<?= base_url('Mahasiswa/p_aktif_cuti') ?>" class="side-menu__item">Pengajuan Aktif Cuti Akademik</a>
     </li>
     <li class="slide">
       <a href="<?= base_url('Mahasiswa/surat_keterangan') ?>" class="side-menu__item <?= (base_url('Mahasiswa/surat_keterangan') == $current_url) ? 'active' : '' ?>">Buat Surat Keterangan</a>
