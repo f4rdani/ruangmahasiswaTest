@@ -86,6 +86,21 @@ class Mahasiswa extends CI_Controller {
 		redirect('Auth/Logoutmhs');
 	}
     }
+
+	public function load_jadwal_dosen() {
+        $kd_dosen = $this->input->post('kd_dosen');
+        
+        // Fetch schedule for the specific lecturer
+        $this->db->select('pertemuan.*, mtk.nm_mtk');
+        $this->db->from('pertemuan');
+        $this->db->join('mtk', 'pertemuan.kd_mtk = mtk.kd_mtk');
+        $this->db->where('pertemuan.kd_dosen', $kd_dosen);
+        $data['jadwal'] = $this->db->get()->result();
+    
+        // Load the view containing the table, returning the HTML content
+        $this->load->view('mahasiswa/jadwal_dosen_modal', $data);
+    }
+	
 	public function  buat_surat_riset()
     {
         $nim = $this->session->userdata('nim');
