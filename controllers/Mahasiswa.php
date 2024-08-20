@@ -1429,7 +1429,34 @@ $data['mhs'] = $this->db->get()->result();
         redirect('mahasiswa/suratperubahanbio');
     }
 }
-
+ public function krs()
+    {
+        $nim = $this->session->userdata('nim');
+        $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        $this->db->select('jrskampus.nm_jrs');
+        $this->db->from('mhs');
+        $this->db->join('jrskampus', 'mhs.kd_jrs = jrskampus.kd_jrs');
+        $this->db->where('mhs.nim', $nim);
+        $data['studi'] = $this->db->get()->row();
+        $mahasiswa = $this->db->get_where('mhs', ['nim' => $nim])->row();
+        $kd_lokal = $mahasiswa->kd_lokal;
+         // Ambil jadwal kuliah berdasarkan kd_lokal dan urutkan berdasarkan hari
+         $this->db->select('pertemuan.*, mtk.nm_mtk');
+         $this->db->from('pertemuan');
+         $this->db->join('mtk', 'pertemuan.kd_mtk = mtk.kd_mtk');
+         $this->db->where('pertemuan.kd_lokal', $kd_lokal);
+         $this->db->order_by("FIELD(pertemuan.hari_t, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')");
+         $data['jadwal'] = $this->db->get()->result();
+        
+        if ($this->session->userdata('role') == "mahasiswa") {
+            $this->load->view('layouts/header');
+            $this->load->view('layouts/sidebar');
+            $this->load->view('mahasiswa/krs', $data);
+            $this->load->view('layouts/footer');
+        } else {
+            redirect('Auth/Logoutmhs');
+        }
+    }
 
 
 }
