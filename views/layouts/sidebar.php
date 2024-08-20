@@ -176,7 +176,7 @@ function is_active($url) {
       <a href="<?= base_url('Mahasiswa/datapribadi') ?>" class="side-menu__item <?= (base_url('Mahasiswa/datapribadi') == $current_url) ? 'active' : '' ?>">Data Pribadi Mahasiswa</a>
     </li>
     <li class="slide">
-      <a href="<?= base_url('Mahasiswa') ?>" class="side-menu__item ">Kartu Rencana Studi</a>
+       <a href="<?= base_url('Mahasiswa/krs') ?>" class="side-menu__item ">Kartu Rencana Studi</a>
     </li>
   </ul>
 </li>
