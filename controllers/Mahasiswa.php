@@ -256,7 +256,8 @@ public function  buat_surat_riset_tugas()
             echo 'Database insert failed';
             return;
         }
-    }public function pengajuan_mutasi_kampus()
+    }
+	public function pengajuan_mutasi_kampus()
     {
         if ($this->session->userdata('role') == "mahasiswa") {
             $data['data'] = $this->db->get('klndrak')->result();
@@ -264,6 +265,7 @@ public function  buat_surat_riset_tugas()
             $data['name'] = $this->session->userdata('name');
             $data['mhs'] = $this->db->get_where('mhs', ['nim' => $nim])->row();
             $data['mutasi'] = $this->db->get_where('pendaftaran_mutasi', ['nim' => $nim])->result();
+            $data['kampus'] = $this->db->get('kampus')->result();
             $this->load->view('layouts/header', $data);
             $this->load->view('layouts/sidebar', $data);
             $this->load->view('mahasiswa/pmk', $data);
@@ -284,6 +286,7 @@ public function  buat_surat_riset_tugas()
         $kd_lokal = $this->input->post('kd_lokal', true);
         $nm_mhs = $this->input->post('nm_mhs', true);
         $kd_paket = $this->input->post('kd_paket', true);
+        $kampus = $this->input->post('kampus', true);
         $json_data = $this->input->post('pil_waktu', true);
         $data = json_decode($json_data, true);
 
