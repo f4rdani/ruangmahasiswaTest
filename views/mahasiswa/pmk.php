@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="tab-pane active text-muted" id="home1-justified" role="tabpanel">
-<code>NOTE DEV: FORM KE pendaftaran_mutasi OK, TAPI UNTUK KAMPUS, PIL_WAKTU,KONDISI,DUAL_D BELUM DI KETAHUI.BUTTON DELETE HANYA SEMENTARA UNTUK PROSES DEVELOPMET</code>
+<code>NOTE DEV: FORM KE pendaftaran_mutasi OK, TAPI UNTUK KONDISI,DUAL_D BELUM DI KETAHUI.BUTTON DELETE HANYA SEMENTARA UNTUK PROSES DEVELOPMET</code>
 
                         <br>
                         <!-- Start:: row-8 -->
@@ -78,22 +78,21 @@
                                     <input type="email" class="form-control form-control-line" name="email" placeholder="Masukan email..." required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-text" class="form-label fs-14 ">Pilihan Kampus</label>
-                                    <select class="form-select" aria-label="Default select example" name="kampus">
-                                        <option selected>Silahkan pilih kampus
-                                        </option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
+                                    <label for="form-text" class="form-label fs-14 ">Pilihan Kampus *</label>
+                                        <select class="form-select" data-trigger id="choices-single-default" name="kampus">
+                                            <?php foreach ($kampus as $w) : ?>
+                                                <option value="<?= $w->kd_kampus . '. ' . $w->nm_kampus ?>">
+                                                    <?= $w->nm_kampus ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="form-text" class="form-label fs-14">Pilihan Waktu</label>
                                     <select class="form-select" aria-label="Default select example" name="pil_waktu"  required>
                                         <option selected>Silahkan pilih Waktu</option>
-                                        <option value='{"waktu": "1", "pil_waktu": "1", "kondisi": "1"}'>One</option>
-                                        <option value='{"waktu": "2", "pil_waktu": "2", "kondisi": "2"}'>Two</option>
-                                        <option value='{"waktu": "3", "pil_waktu": "3", "kondisi": "3"}'>Three</option>
+                                        <option value='{"waktu": "1", "pil_waktu": "1", "kondisi": "1"}'>Pagi</option>
+                                        <option value='{"waktu": "2", "pil_waktu": "2", "kondisi": "2"}'>Sore</option>
                                     </select>
                                 </div>
 
