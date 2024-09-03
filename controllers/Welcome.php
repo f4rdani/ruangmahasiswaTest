@@ -46,11 +46,15 @@ class Welcome extends CI_Controller {
 	$data['correct_captcha_answer'] =  $correct_captcha_answer;
 	$data['data'] = $this->db->get('info_luar')->result();
 	$data['dat'] = $this->db->get('pengumuman')->result();
+	
+	$data['countAktif'] = $this->db->where('kondisi', 1)->count_all_results('mhs');
+	$data['countCuti'] = $this->db->where('kondisi', 3)->count_all_results('mhs');
+	$data['countLulus'] = $this->db->where('kondisi', 5)->count_all_results('mhs');
+	$data['countRegistrasi'] = $this->db->where('kondisi', 7)->count_all_results('mhs');
 	// $this->load->view('layouts/welcomeheader', $data);
     $this->load->view('welcome_message', $data);
 	// $this->load->view('layouts/welcomefooter', $data);
 	}
-
 
 	public function ceksk($nim)
 		{
