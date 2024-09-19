@@ -57,27 +57,43 @@ class Welcome extends CI_Controller {
 	}
 
 	public function ceksk($nim)
-		{
-			// Ambil data berdasarkan nim
-			$data['user'] = $this->db->get_where('sk_surat_do', ['nim' => $nim])->row();
-			$data['dat'] = $this->db->get('pengumuman')->result();
-			$data['da'] = $this->db->get('sk_do_file')->result();
-			// Load views
-			$this->load->view('layouts/welcomeheader' , $data);
-			$this->load->view('ceksk', $data);
-			$this->load->view('layouts/welcomefooter' , $data);
-		}
-		public function ceknim($nim)
-		{
-			// Ambil data berdasarkan nim
-			$data['user'] = $this->db->get_where('penggantian_nim', ['nim_lama' => $nim])->row();
-			$data['dat'] = $this->db->get('pengumuman')->result();
-			// Load views
-			$this->load->view('layouts/welcomeheader', $data);
-			$this->load->view('ceknim', $data);
-			$this->load->view('layouts/welcomefooter', $data);
+	{
+		// Ambil data berdasarkan nim
+		$data['user'] = $this->db->get_where('sk_surat_do', ['nim' => $nim])->row();
+
+		// Jika data nim tidak ditemukan
+		if (empty($data['user'])) {
+			// Redirect ke halaman welcome
+			redirect('welcome');
 		}
 
+		$data['dat'] = $this->db->get('pengumuman')->result();
+		$data['da'] = $this->db->get('sk_do_file')->result();
+
+		// Load views
+		$this->load->view('layouts/welcomeheader', $data);
+		$this->load->view('ceksk', $data);
+		$this->load->view('layouts/welcomefooter', $data);
+	}
+
+	public function ceknim($nim)
+	{
+		// Ambil data berdasarkan nim
+		$data['user'] = $this->db->get_where('penggantian_nim', ['nim_lama' => $nim])->row();
+
+		// Jika data nim tidak ditemukan
+		if (empty($data['user'])) {
+			// Redirect ke halaman welcome
+			redirect('welcome');
+		}
+
+		$data['dat'] = $this->db->get('pengumuman')->result();
+
+		// Load views
+		$this->load->view('layouts/welcomeheader', $data);
+		$this->load->view('ceknim', $data);
+		$this->load->view('layouts/welcomefooter', $data);
+	}
 
 	public function aktivasi_mahasiswa()
 	{
