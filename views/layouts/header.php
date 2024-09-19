@@ -617,11 +617,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <li><a class="dropdown-item d-flex" href="profile.html"><i class="bx bx-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
-                            <li><a class="dropdown-item d-flex" href="editprofile.html"><i class="bx bx-cog fs-18 me-2 op-7"></i>Edit Profile </a></li>
-                            <li><a class="dropdown-item d-flex border-block-end" href="mail.html"><i class="bx bxs-inbox fs-18 me-2 op-7"></i>Inbox</a></li>
-                            <li><a class="dropdown-item d-flex" href="chat.html"><i class="bx bx-envelope fs-18 me-2 op-7"></i>Messages</a></li>
-                            <li><a class="dropdown-item d-flex border-block-end" href="editprofile.html"><i class="bx bx-slider-alt fs-18 me-2 op-7"></i>Account Settings</a></li>
+                            <?php if($this->session->userdata('role') == "mahasiswa"):?>
+                            <li><a class="dropdown-item d-flex" href="<?=  base_url('Mahasiswa/gantipass');?>"><i class="bx bx-slider-alt fs-18 me-2 op-7"></i>Ganti Password</a></li>
+                            <?php endif; ?>
                             <?php if($this->session->userdata('role') == "admin"):?>
                             <li><a class="dropdown-item d-flex" href="<?=  base_url('Auth/logout');?>"><i class="bx bx-log-out fs-18 me-2 op-7"></i>Sign Out</a></li>
                             <?php endif; ?>
