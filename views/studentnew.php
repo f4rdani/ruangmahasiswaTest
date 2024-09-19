@@ -274,7 +274,7 @@
                             </svg></div>
                         <div class="d-lg-flex d-none">
                             <div class="btn-list d-lg-flex d-none mt-lg-2 mt-xl-0 mt-0">
-                                <a href="signup.html" class="btn btn-wave btn-primary">
+                                <a href="#about" class="btn btn-wave btn-primary">
                                     Sign Up
                                 </a>
                                 <button class="btn btn-wave btn-icon btn-light" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
@@ -305,20 +305,22 @@
                                     <div class="mb-3">
                                         <h5 class="fw-semibold text-fixed-white op-9">Selamat Datang</h5>
                                     </div>
-                                    <p class="landing-banner-heading mb-3">Di Tampilan Baru</p>
+                                    <p class="landing-banner-heading mb-3"> Ruang Mahasiswa</p>
                                     <div class="fs-16 mb-5 text-fixed-white op-7"> Sistem Akademik Mahasiswa (SIAKAD) Universitas Bina Sarana Informatika</div>
-                                    <a href="https://themeforest.net/user/spruko/portfolio" target="_blank" class="m-1 btn btn-primary">
+                                    <button class="m-1 btn btn-primary" onclick="showContent('login')">
                                         Login
                                         <i class="fe fe-eye ms-2 align-middle"></i>
-                                    </a>
-                                    <a href="index.html" class="m-1 btn btn-warning">
+                                    </button>
+
+                                    <button class="m-1 btn btn-warning" onclick="showContent('aktivasi')">
                                         Aktivasi Mahasiswa
                                         <i class="fe fe-arrow-right ms-2 align-middle"></i>
-                                    </a>
-                                    <a href="index.html" class="m-1 btn btn-info">
+                                    </button>
+
+                                    <button class="m-1 btn btn-info" onclick="showContent('ceknim')">
                                         Cek NIM/SK DO/SK Keluar
                                         <i class="fe fe-arrow-right ms-2 align-middle"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -331,38 +333,59 @@
             <section class="section " id="about">
                 <div class="container text-center">
                     <div class="row justify-content-center align-items-center mx-0">
-                        <div class="col-lg-6 col-xl-6 col-lg-6 text-center text-lg-start">
-                            <div class="col-lg-8">
-                                <div class="card shadow-none">
-                                    <div class="card-body px-8 pt-8">
-                                        <div class="row mt-1">
-                                            <div class="col-xl-12">
-                                                <div class="form-group ">
-                                                    <label for="cusName" class="form-label">NIM
-                                                        <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" placeholder="Input Nim">
-                                                </div>
+                        <div id="dynamic-content" class="col-lg-6 col-xl-6 col-lg-6 text-center text-lg-start">
 
-                                                <div class="form-group">
-                                                    <label for="cusEmail" class="form-label">Password
-                                                        <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cusMessage" class="form-label">Berapa Hasil <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group mb-2 pt-1">
-                                            <button class="btn btn-primary">Login</button>
-                                        </div>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 pt-5 pb-0 px-lg-2 px-5 text-start">
+                            <style>
+                                .marquee-container {
+                                    width: 100%;
+                                    /* Reduced width for a smaller box */
+                                    overflow: hidden;
+
+                                    padding: 5px 0;
+                                    /* Reduced padding for a smaller box */
+                                    position: relative;
+                                    margin: 0 auto;
+                                    /* Center the box horizontally */
+                                    border-radius: 10px;
+                                    /* Rounded corners */
+                                }
+
+                                .marquee {
+                                    display: flex;
+                                    white-space: nowrap;
+                                    animation: marquee 15s linear infinite;
+                                }
+
+                                .marquee-content span {
+                                    padding: 0 2em;
+                                    display: inline-block;
+                                    color: #fff;
+                                    /* White text */
+                                }
+
+                                /* Animation */
+                                @keyframes marquee {
+                                    0% {
+                                        transform: translateX(100%);
+                                    }
+
+                                    100% {
+                                        transform: translateX(-100%);
+                                    }
+                                }
+                            </style>
+                            <div class="marquee-container  bg-primary">
+                                <div class="marquee">
+                                    <div class="marquee-content">
+                                        <?php foreach ($dat as $p): ?>
+                                            <span><?= $p->judul ?> | <?= $p->isi_pengumuman ?></span>
+                                        <?php endforeach; ?>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 pt-5 pb-0 px-lg-2 px-5 text-start">
                             <h4 class="text-lg-start fw-medium mb-4">PENGUMUMAN </h4>
                             <div class="row">
                                 <div class="rating-scroll">
@@ -372,10 +395,12 @@
                                                 <span>
                                                     <i class='bx bxs-badge-check text-primary fs-12'></i>
                                                 </span>
-                                                <div class="ms-2">
-                                                    <h8 class="fw-medium mb-0"><?= $date->judul ?></h8>
-                                                    <span class="fs-14 ms-auto" style="color: red;">(<?= date('Y-m-d', strtotime($date->tgl_update)) ?>)</span>
-                                                </div>
+                                                <a href="<?= base_url('assets/uploads/' . $date->file) ?>" target="_blank">
+                                                    <div class="ms-2">
+                                                        <h8 class="fw-medium mb-0"><?= $date->judul ?> </h8>
+                                                        <span class="fs-14 ms-auto" style="color: red;">(<?= date('Y-m-d', strtotime($date->tgl_update)) ?>)</span>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -418,7 +443,7 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h5 class="fw-bold">32,000</h5>
+                                            <h5 class="fw-bold"><?php echo !empty($countAktif) ? $countAktif : 0; ?></h5>
                                             <p class="mb-0">Mahasiswa Aktif </p>
                                         </div>
                                     </div>
@@ -446,7 +471,7 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h5 class="fw-bold">500</h5>
+                                            <h5 class="fw-bold"><?php echo !empty($countCuti) ? $countCuti : 0; ?></h5>
                                             <p class="mb-0"> Mahasiswa Cuti</p>
                                         </div>
                                     </div>
@@ -471,7 +496,7 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h5 class="fw-bold">210.098</h5>
+                                            <h5 class="fw-bold"><?php echo !empty($countLulus) ? $countLulus : 0; ?></h5>
                                             <p class="mb-0"> Mahasiswa Lulus </p>
                                         </div>
                                     </div>
@@ -496,7 +521,7 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h5 class="fw-bold">2294</h5>
+                                            <h5 class="fw-bold"><?php echo !empty($countRegistrasi) ? $countRegistrasi : 0; ?></h5>
                                             <p class="mb-0"> Mahasiswa Registrasi </p>
                                         </div>
                                     </div>
@@ -525,26 +550,26 @@
                     <div class="justify-content-center">
                         <div class="">
                             <div class="feature-logos mt-sm-5 flex-wrap">
-                                <div class="ms-sm-5 ms-2 text-center">
-                                    <img src="<?= base_url("assets"); ?>/images/media/landing/web/1.png" alt="image" class="featur-icon">
-                                    <h5 class="mt-3 text-fixed-white ">MyUBSI</h5>
-                                </div>
-                                <div class="ms-sm-5 ms-2 text-center">
-                                    <img src="<?= base_url("assets"); ?>/images/media/landing/web/2.png" alt="image" class="featur-icon">
+                               <a class="ms-sm-5 ms-2 text-center" href="https://play.google.com/store/apps/details?id=id.ac.bsi.my_ubsi&hl=en_US&pli=1">
+                                    <img src="<?= base_url("assets"); ?>/images/myubsi.png" alt="image" class="featur-icon">
+                                    <h5 class="mt-3 text-fixed-white">MyUBSI</h5>
+                                </a>
+                                <a class="ms-sm-5 ms-2 text-center" href="https://www.youtube.com/channel/UCoWyVzpEpSx6G8GY89qULPA">
+                                    <img src="<?= base_url('assets');?>/images/youtube.png" alt="image" class="featur-icon">
                                     <h5 class="mt-3 text-fixed-white ">Youtube</h5>
-                                </div>
-                                <div class="ms-sm-5 ms-2 text-center">
-                                    <img src="<?= base_url("assets"); ?>/images/media/landing/web/3.png" alt="image" class="featur-icon">
+                                    </a>
+                                <a class="ms-sm-5 ms-2 text-center" href="https://www.instagram.com/?hl=en">
+                                    <img src="<?= base_url('assets');?>/images/instagram.png" alt="image" class="featur-icon">
                                     <h5 class="mt-3 text-fixed-white ">Instagram</h5>
-                                </div>
-                                <div class="ms-sm-5 ms-2 text-center">
-                                    <img src="<?= base_url("assets"); ?>/images/media/landing/web/4.png" alt="image" class="featur-icon">
+                                </a>
+                                <a class="ms-sm-5 ms-2 text-center" href="https://x.com/KuliahBSIAja">
+                                    <img src="<?= base_url("assets"); ?>/images/x.png" alt="image" class="featur-icon">
                                     <h5 class="mt-3 text-fixed-white ">X</h5>
-                                </div>
-                                <div class="ms-sm-5 ms-2 text-center">
-                                    <img src="<?= base_url("assets"); ?>/images/media/landing/web/5.png" alt="image" class="featur-icon">
+                                </a>
+                                <a class="ms-sm-5 ms-2 text-center" href="https://www.facebook.com/kampusbsi/">
+                                    <img src="<?= base_url("assets"); ?>/images/fb.png" alt="image" class="featur-icon">
                                     <h5 class="mt-3 text-fixed-white ">Facebook</h5>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -670,10 +695,9 @@
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="px-4">
-                            <p class="fw-semibold mb-3"><a href="index.html"><img src="<?= base_url("assets"); ?>/images/brand-logos/desktop-white.png" alt="" class="logo-img"></a></p>
+                            <p class="fw-semibold mb-3"><a href="index.html"><img src="<?= base_url("assets"); ?>/images/logobti2.png" alt="" class="logo-img"></a></p>
                             <p class="mb-3 op-6 fw-normal">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit et magnam, fuga est mollitia eius, quo illum illo inventore optio aut quas omnis rem. Dolores accusantium aspernatur minus ea incidunt.
-                            </p>
+                                Sistem Informasi Akademik Mahasiswa (student.bsi.ac.id). Situs ini dikhususkan bagi mahasiswa/mahasiswi Akademi-akademi Bina Sarana Informatika dalam memperoleh informasi akademik (nilai), pembayaran biaya kuliah, pendaftaran ujian Her, TA, dll.                            </p>
                             <div class="input-group">
                                 <input type="text" class="form-control bg-transparent text-fixed-white" placeholder="Enter your email"
                                     aria-label="Example text with button addon" aria-describedby="button-addon2">
@@ -777,17 +801,18 @@
         </section>
         <!-- End:: Section-10 -->
 
+        
+
         <div class="text-center landing-main-footer py-3">
             <span class="text-muted fs-15"> Copyright © <span id="year"></span> <a
-                    href="javascript:void(0);" class="text-primary fw-semibold"><u>Valex</u></a>.
-                Designed with <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);" class="text-primary fw-semibold"><u>
-                        Spruko</u>
+                    href="javascript:void(0);" class="text-primary fw-semibold"><u>AKADEMIK MAHASISWA - UNIVERSITAS BINA SARANA INFORMATIKA</u></a>.
+                Powered By <span class=" text-danger"></span> <a href="javascript:void(0);" class="text-primary fw-semibold"><u>
+                        BTI-BSI</u>
                 </a> All
                 rights
                 reserved
             </span>
         </div>
-
     </div>
     <!-- End::app-content -->
 
@@ -797,6 +822,185 @@
         <span class="arrow"><i class="ri-arrow-up-s-fill fs-20"></i></span>
     </div>
     <div id="responsive-overlay"></div>
+
+
+    <script>
+       
+        function showContent(type) {
+            let content = '';
+
+            if (type === 'login') {
+                content = `
+            <div class="col-lg-8">
+                <div class="card shadow-none">
+                    <div class="card-body px-8 pt-8">
+                        <div class="row mt-1">
+                            <div class="col-xl-12">
+                                <form method="post" action="<?= base_url('Auth/loginmhs'); ?>">
+                                    <div class="form-group ">
+                                        <label for="cusName" class="form-label">NIM<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="username" placeholder="Input Nim">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cusEmail" class="form-label">Password<span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" name="password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="captcha" class="form-label"> <?php echo $captcha_question; ?><span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="captcha_answer">
+                                        <input class="form-control" name="correct_captcha_answer" id="correct_captcha_answer" type="hidden" value="<?php echo  $correct_captcha_answer; ?>">
+                                    </div>
+
+                                    <div class="form-group mb-2 pt-1">
+                                        <button class="btn btn-primary">Login</button>
+                                        <p class="mb-1"><a href="<?= base_url('Auth/forgotpass'); ?>">Forgot password?</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            } else if (type === 'aktivasi') {
+                content = `
+    <div class="col-lg-12">
+        <div class="shadow-none">
+            
+                <div class="row mt-1">
+                    <div class="col-xl-12">
+                        <!-- Card untuk Nomor 1 dan 2 -->
+                        <div class="">
+                                
+                            <div class="card custom-card shadow-none">
+                                <div class="card-header justify-content-between">
+                                    <div class="card-title">
+                                        1. Pendaftaran Aktivasi Mahasiswa Keluar
+                                        <?= $this->session->flashdata('message'); ?>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                   <form id="formPendaftaran" method="post" action="<?= base_url('#'); ?>">
+                                        <div class="row mb-3">
+                                            <label for="inputEmail3"
+                                                class="col-sm-2 col-form-label">NIM Lama</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="nimLama" class="form-control" id="inputEmail3"  placeholder="Masukkan NIM Lama">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="tgl"
+                                                class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                                            <div class="col-sm-10">
+                                                <input type="date" name="tglLahir" class="form-control" id="tgl">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Daftar Aktivasi</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card custom-card shadow-none">
+                                <div class="card-header justify-content-between">
+                                    <div class="card-title">
+                                        2. Pembayaran Aktivasi Mahasiswa Keluar (Setelah Mendaftar)
+                                        <?= $this->session->flashdata('message'); ?>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                   <form id="formPembayaran" method="post" action="<?= base_url('#'); ?>">
+                                        <div class="row mb-3">
+                                            <label for="inputEmail3"
+                                                class="col-sm-2 col-form-label">No. Formulir</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputEmail3"   name="noFormulir" placeholder="Masukkan No. Formulir">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="tgl"
+                                                class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-10">
+                                                <input type="password"  name="passwordBayar" class="form-control" id="tgl"  placeholder="Masukkan Password">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Aktivasi</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                                
+                        <!-- End of card -->
+                    </div>
+                </div>
+            
+        </div>
+    </div>`;
+            } else if (type === 'ceknim') {
+                content = `
+            <div class="col-lg-8">
+                <div class="card shadow-none">
+                    <div class="card-body px-8 pt-8">
+                        <div class="row mt-1">
+                            <div class="col-xl-12">
+                                <div class="card-body">
+                <nav class="nav nav-pills flex-column flex-sm-row" role="tablist">
+                    <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#pill-flex-home" aria-selected="true">Cek Nim Baru</a>
+                    <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#pill-flex-big" aria-selected="false">Cek Surat Keterangan DO</a>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane show active text-muted" id="pill-flex-home" role="tabpanel">
+                        <form method="post" action="<?= base_url('Welcome/login_ceknim'); ?>">
+                            <?= $this->session->flashdata('message'); ?>
+
+                           
+                                <div class="form-group" style="display: flex; justify-content: space-around; align-items: center;">
+                                    <div style="flex: 1; margin: 10px;">
+                                        <label for="nim" style="display: block; margin-bottom: 5px; ">NIM Lama</label>
+                                        <input type="text" class="form-control" id="nim" name="nim" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="1722xxxx">
+                                        <input type="hidden" class="form-control" id="pilih" name="pilih" value="nimbaru">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" >Cek Nim Baru</button>
+                          
+                        </form>
+                    </div>
+                    <div class="tab-pane text-muted" id="pill-flex-big" role="tabpanel">
+                        <form method="post" action="<?= base_url('Welcome/login_ceknim'); ?>">
+                            <?= $this->session->flashdata('message'); ?>
+
+                            
+                                <div class="form-group" style="display: flex; justify-content: space-around; align-items: center;">
+                                    <div style="flex: 1; margin: 10px;">
+                                        <label for="nim" style="display: block; margin-bottom: 5px; ">NIM Anda</label>
+                                        <input type="text" class="form-control" id="nim" name="nim" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="1722xxxx">
+                                        <input type="hidden" class="form-control" id="pilih" name="pilih" value="suratsk">
+                                    </div>
+                                </div>
+                                <button type="submit"  class="btn btn-primary" >Cek SK DO</button>
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            }
+
+            // Mengisi div dengan ID 'dynamic-content' dengan konten sesuai pilihan
+            document.getElementById('dynamic-content').innerHTML = content;
+        }
+
+        // Set konten default ke 'login' saat halaman pertama kali dimuat
+        window.onload = function() {
+            showContent('login');
+        };
+    </script>
+
+
 
     <!-- Popper JS -->
     <script src="<?= base_url("assets"); ?>/libs/@popperjs/core/umd/popper.min.js"></script>
