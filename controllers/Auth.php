@@ -141,4 +141,81 @@ class Auth extends CI_Controller {
         }
     }
 
+
+	// Password menggunakan API Twillo Trial 
+
+
+	public function forgotpass()
+	{
+		
+	
+		$this->load->view('forgotpass');
+		
+	}
+	public function forgot_password()
+{
+    // Ambil nim dari form
+    $nim = $this->input->post('nim');
+    
+    // Cari pengguna berdasarkan nim
+    $user = $this->db->get_where('mhs', ['nim' => $nim])->row();
+    $phone_number_obj = $this->db->select('telp')
+                         ->get_where('mhs', ['nim' => $nim])
+                         ->row();
+
+    if ($user) {
+        // Ambil nomor telepon dari object
+        $phone_number = $phone_number_obj->telp;
+
+        // Buat password baru
+        $new_password = $this->generate_password();
+        
+        // Update password baru ke database
+        $this->db->update('mhsregs', ['passwd' => password_hash($new_password, PASSWORD_BCRYPT)], ['nim' => $nim]);
+
+        // Kirim pesan WA dengan kata sandi baru
+        $this->send_whatsapp($phone_number, $new_password);
+
+        // Beri pesan sukses dan redirect ke halaman login
+        $last_four_digits = substr($phone_number, -4);
+        $this->session->set_flashdata('message', 'Password baru telah dikirim melalui WhatsApp *****'. $last_four_digits);
+
+        redirect('Auth/forgotpass');
+    } else {
+        // Jika nim tidak ditemukan, beri pesan error
+        $this->session->set_flashdata('error', 'NIM tidak ditemukan.');
+        redirect('forgot_password');
+    }
+}
+
+    private function generate_password($length = 8)
+    {
+        return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
+    }
+
+    private function send_whatsapp($phone_number, $new_password)
+{
+    // Pastikan nomor telepon diformat dalam format internasional
+    if (substr($phone_number, 0, 1) == '0') {
+        $phone_number = '+62' . substr($phone_number, 1); // Ubah 0 di depan jadi +62 (kode negara Indonesia)
+    }
+
+    $sid = 'AC5b7e04966674f4eb8c8e36e2b830de64'; // Ganti dengan SID Twilio Anda
+    $token = '39eaba7a4b89752ece30580dd31bb22b'; // Ganti dengan Token Twilio Anda
+    $twilio_number = 'whatsapp:+14155238886'; // Ganti dengan nomor WhatsApp Twilio Anda
+
+    $client = new Client($sid, $token);
+    
+    // Pesan yang dikirimkan ke pengguna
+    $message = "Halo, password baru Anda adalah: " . $new_password;
+
+    // Kirim pesan ke WhatsApp
+    $client->messages->create(
+        'whatsapp:' . $phone_number, // Nomor WhatsApp penerima dalam format internasional
+        [
+            'from' => $twilio_number,
+            'body' => $message
+        ]
+    );
+}
 }
