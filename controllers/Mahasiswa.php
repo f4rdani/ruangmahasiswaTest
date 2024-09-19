@@ -1475,6 +1475,56 @@ $data['mhs'] = $this->db->get()->result();
             redirect('Auth/Logoutmhs');
         }
     }
+public function gantipass()
+	{
+		
+	
+     // Load views jika peran adalah mahasiswa
+     if ($this->session->userdata('role') == "mahasiswa") {
+    
+        $this->load->view('mahasiswa/gantipass');
 
+    }
+    else {
+        // Redirect ke halaman logout jika bukan mahasiswa
+        redirect('Auth/Logoutmhs');
+    }
+		
+	}
+
+	public function gantipass_func()
+{
+    // Make sure the user is logged in
+    if (!$this->session->userdata('nim')) {
+        redirect('Auth/Logoutmhs');
+    }
+
+    // Form validation rules for new password and confirmation
+    $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[6]|matches[new_password2]');
+    $this->form_validation->set_rules('new_password2', 'Confirm New Password', 'required|trim|matches[new_password1]');
+
+    if ($this->form_validation->run() == false) {
+        // Load the view if validation fails
+        $this->load->view('mahasiswa/gantipass');
+    } else {
+        $new_password = $this->input->post('new_password1');
+        
+        // Get the logged-in user's NIM from session
+        $nim = $this->session->userdata('nim');
+        
+        // Fetch the user's current data from the database
+        $user = $this->db->get_where('mhsregs', ['nim' => $nim])->row();
+
+        // Hash the new password and update it in the database
+        $new_password_hash = password_hash($new_password, PASSWORD_BCRYPT);
+        $this->db->set('passwd', $new_password_hash);
+        $this->db->where('nim', $nim);
+        $this->db->update('mhsregs');
+
+        // Set success message and redirect
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password has been successfully changed!</div>');
+        redirect('Mahasiswa/gantipass');
+    }
+}
 
 }
