@@ -11,13 +11,18 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                    <a style="margin-bottom: 20px;" href="<?= base_url('Pdf/cetak_jadwal_kuliah'); ?>" class="btn btn-primary">Cetak Jadwal</a>
+                        <a style="margin-bottom: 20px;" href="<?= base_url('Pdf/cetak_jadwal_kuliah'); ?>" class="btn btn-primary">Cetak Jadwal</a>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Hari</th>
                                         <th>Mata Kuliah</th>
+                                        <th>Silabus</th>
+                                        <th>Rpl</th>
+                                        <th>Slide</th>
+                                        <th>Zip</th>
+                                        <th>Modul</th>
                                         <th>Jam</th>
                                         <th>Kode Dosen</th>
                                         <th>Ruangan</th>
@@ -42,6 +47,11 @@ $day_count = 0;
     <tr>
         <td><?php echo $i->hari_t; ?></td>
         <td><?php echo $i->nm_mtk; ?></td>
+        <td><a href="#" ><i class="fa fa-folder"></i></a></td>
+        <td><a href="#" ><i class="fa fa-folder"></i></a></td>
+        <td><a href="#" ><i class="fa fa-folder"></i></a></td>
+        <td><a href="#" ><i class="fa fa-folder"></i></a></td>
+        <td><a href="#" ><i class="fa fa-folder"></i></a></td>
         <td><?php echo $i->jam_t; ?></td>
         <td><?php echo $i->kd_dosen; ?></td>
         <td><?php echo $i->no_ruang; ?></td>
